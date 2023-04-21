@@ -71,7 +71,7 @@ function App() {
   //     </Routes>
   //   </>
   // );
-  return <RouterProvider router={router} />;
+  return <LoginPage />;
 }
 
 export default App;
