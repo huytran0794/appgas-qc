@@ -6,7 +6,7 @@ import PageWrapper from "../../core/Components/PageWrapper/PageWrapper";
 import logoPage from "../../core/assets/images/logo.png";
 
 import LoginForm from "../../core/Components/Forms/LoginForm";
-// import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import CustomNotification from "../../core/Components/Notification/CustomNotification";
 import { LOCAL_SERVICE } from "../../core/services/localServ";
 
