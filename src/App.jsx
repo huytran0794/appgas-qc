@@ -62,7 +62,14 @@ function App() {
   //     </Routes>
   //   </>
   // );
-  return <LoginPage />;
+  return (
+    <div>
+      Text Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi id
+      accusamus maiores, impedit voluptatem natus nobis doloribus error
+      cupiditate laboriosam minima veritatis! Quisquam, vero mollitia totam
+      quaerat ea in dolorem?
+    </div>
+  );
 }
 
 export default App;
