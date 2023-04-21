@@ -1,5 +1,5 @@
-import { Route, Routes } from "react-router-dom";
-import LoginPage from "./Pages/Login/LoginPage";
+// import { Route, Routes } from "react-router-dom";
+// import LoginPage from "./Pages/Login/LoginPage";
 // import PrivateRoutes from "./core/routes/PrivateRoutes/PrivateRoutes";
 // import CustomLayout from "./core/Layout/CustomLayout";
 // import CustomerManagementPage from "./Pages/CustomerManagement/CustomerManagementPage";
@@ -63,7 +63,7 @@ function App() {
   //   </>
   // );
   return (
-    <div>
+    <div className="bg-red-700">
       Text Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi id
       accusamus maiores, impedit voluptatem natus nobis doloribus error
       cupiditate laboriosam minima veritatis! Quisquam, vero mollitia totam
