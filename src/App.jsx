@@ -24,11 +24,7 @@ import {
 // import AddAdminPage from "./Pages/AdminManagement/AddAdminPage";
 
 const router = createBrowserRouter(
-  createRoutesFromElements(
-    <Route path="/" element={<CustomLayout />}>
-      <Route index path="login" element={<LoginPage />} />
-    </Route>
-  )
+  createRoutesFromElements(<Route index element={<LoginPage />} />)
 );
 
 function App() {
