@@ -2,6 +2,11 @@ import { Route, Routes } from "react-router-dom";
 import LoginPage from "./Pages/Login/LoginPage";
 // import PrivateRoutes from "./core/routes/PrivateRoutes/PrivateRoutes";
 import CustomLayout from "./core/Layout/CustomLayout";
+import {
+  RouterProvider,
+  createBrowserRouter,
+  createRoutesFromElements,
+} from "react-router-dom/dist";
 // import CustomerManagementPage from "./Pages/CustomerManagement/CustomerManagementPage";
 // import CustomerDetail from "./Pages/CustomerManagement/Detail/CustomerDetail";
 // import EditCustomerPage from "./Pages/CustomerManagement/Edit/EditCustomerPage";
@@ -17,6 +22,14 @@ import CustomLayout from "./core/Layout/CustomLayout";
 // import UserTaskDetail from "./Pages/UserTaskAssignment/TaskDetail/UserTaskDetail";
 // import OrderDetail from "./Pages/CustomerManagement/Detail/OrderDetail";
 // import AddAdminPage from "./Pages/AdminManagement/AddAdminPage";
+
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route path="/" element={<CustomLayout />}>
+      <Route index path="login" element={<LoginPage />} />
+    </Route>
+  )
+);
 
 function App() {
   // return (
@@ -62,15 +75,7 @@ function App() {
   //     </Routes>
   //   </>
   // );
-  return (
-    <>
-      <Routes>
-        <Route path="/" element={<CustomLayout />}>
-          <Route path="login" element={<LoginPage />} />
-        </Route>
-      </Routes>
-    </>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;
