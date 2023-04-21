@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom";
-// import LoginPage from "./Pages/Login/LoginPage";
+import LoginPage from "./Pages/Login/LoginPage";
 // import PrivateRoutes from "./core/routes/PrivateRoutes/PrivateRoutes";
-// import CustomLayout from "./core/Layout/CustomLayout";
+import CustomLayout from "./core/Layout/CustomLayout";
 // import CustomerManagementPage from "./Pages/CustomerManagement/CustomerManagementPage";
 // import CustomerDetail from "./Pages/CustomerManagement/Detail/CustomerDetail";
 // import EditCustomerPage from "./Pages/CustomerManagement/Edit/EditCustomerPage";
@@ -21,54 +21,48 @@ import { Route, Routes } from "react-router-dom";
 // import CustomPage from "./Pages/CustomPage";
 
 function App() {
-  // return (
-  //   <>
-  //     <Routes>
-  //       <Route path="/" element={<CustomLayout />}>
-  //         <Route path="custom" element={<CustomPage />} />
-  //         <Route path="login" element={<LoginPage />} />
-  //         {/* Private routes */}
-  //         <Route element={<PrivateRoutes />}>
-  //           <Route index element={<CustomerListPage />} />
-  //           <Route path="manager" element={<CustomerManagementPage />} />
-  //           <Route path="admin/user-management" element={<UserManagePage />} />
-  //           <Route path="admin/add-user" element={<AddUserPage />} />
-  //           <Route path="admin/user/view/:id" element={<UserDetail />} />
-  //           <Route path="admin/user/edit/:id" element={<EditUserPage />} />
-  //           <Route
-  //             path="admin/user/task-management"
-  //             element={<UserTaskPage />}
-  //           />
-  //           <Route
-  //             path="admin/user/task-assign/:id"
-  //             element={<UserTaskAssign />}
-  //           />
-  //           <Route
-  //             path="user/task-tracking"
-  //             element={<UserTaskTrackingPage />}
-  //           />
-  //           <Route
-  //             path="user/task-tracking/detail/:id"
-  //             element={<UserTaskDetail />}
-  //           />
-  //           <Route path="customer/view/:id" element={<CustomerDetail />} />
-  //           <Route path="customer/edit/:id" element={<EditCustomerPage />} />
-  //           <Route path="customer/add-customer" element={<AddCustomerPage />} />
-
-  //           <Route
-  //             path="customer/view/:customer_id/order-history/:id"
-  //             element={<OrderDetail order={1} />}
-  //           />
-  //           <Route path="master/admin/add-admin" element={<AddAdminPage />} />
-  //         </Route>
-  //       </Route>
-  //     </Routes>
-  //   </>
-  // );
   return (
-    <div className="bg-orange-600">
-      <button>Click me</button>
-    </div>
+    <>
+      <Routes>
+        <Route path="/" element={<CustomLayout />}>
+          <Route path="login" element={<LoginPage />} />
+          {/* Private routes */}
+          {/* <Route element={<PrivateRoutes />}>
+            <Route index element={<CustomerListPage />} />
+            <Route path="manager" element={<CustomerManagementPage />} />
+            <Route path="admin/user-management" element={<UserManagePage />} />
+            <Route path="admin/add-user" element={<AddUserPage />} />
+            <Route path="admin/user/view/:id" element={<UserDetail />} />
+            <Route path="admin/user/edit/:id" element={<EditUserPage />} />
+            <Route
+              path="admin/user/task-management"
+              element={<UserTaskPage />}
+            />
+            <Route
+              path="admin/user/task-assign/:id"
+              element={<UserTaskAssign />}
+            />
+            <Route
+              path="user/task-tracking"
+              element={<UserTaskTrackingPage />}
+            />
+            <Route
+              path="user/task-tracking/detail/:id"
+              element={<UserTaskDetail />}
+            />
+            <Route path="customer/view/:id" element={<CustomerDetail />} />
+            <Route path="customer/edit/:id" element={<EditCustomerPage />} />
+            <Route path="customer/add-customer" element={<AddCustomerPage />} />
+
+            <Route
+              path="customer/view/:customer_id/order-history/:id"
+              element={<OrderDetail order={1} />}
+            />
+            <Route path="master/admin/add-admin" element={<AddAdminPage />} />
+          </Route> */}
+        </Route>
+      </Routes>
+    </>
   );
 }
 
