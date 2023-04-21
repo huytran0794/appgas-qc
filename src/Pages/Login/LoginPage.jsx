@@ -12,7 +12,6 @@ import { LOCAL_SERVICE } from "../../core/services/localServ";
 
 import { checkAllInfo } from "../../core/utils/checkLogin";
 
-
 const LoginPage = () => {
   const navigate = useNavigate();
 
@@ -36,14 +35,15 @@ const LoginPage = () => {
         buttonRef.current.disabled = true;
 
         return res;
-      }).then((res) => {
+      })
+      .then((res) => {
         CustomNotification("success", "Login ok", "Please wait a minute");
         setTimeout(() => {
           navigate("/");
-          if(res.hasOwnProperty('tasks')) {
+          if (res.hasOwnProperty("tasks")) {
             LOCAL_SERVICE.user.set(res, res.role);
           } else {
-            LOCAL_SERVICE.user.set({...res, 'tasks': []}, res.role);
+            LOCAL_SERVICE.user.set({ ...res, tasks: [] }, res.role);
           }
         }, 2500);
       })
@@ -75,48 +75,6 @@ const LoginPage = () => {
               <div className="form-body">
                 <LoginForm handleFinish={handleFinish} />
               </div>
-              {/* <div className="sign-up-txt mb-0 text-center">
-                <p className="txt">
-                  Not A Member ?{" "}
-                  <Link to="/" className="text-blue-ribbon-500 ml-1">
-                    Create An Account
-                  </Link>
-                </p>
-              </div> */}
-              {/* <div className="social-link">
-                <ul className="account-social-link flex justify-center items-center gap-5">
-                  <li>
-                    <Link
-                      to="https://www.google.com/"
-                      target="_blank"
-                      className="w-12 h-12 rounded-full  bg-[#EBF1FF] flex items-center justify-center"
-                    >
-                      <AiOutlineGoogle
-                        className="text-blue-ribbon-500"
-                        size={20}
-                      />
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to="https://www.facebook.com/"
-                      target="_blank"
-                      className="w-12 h-12 rounded-full text-blue-ribbon-500 bg-[#EBF1FF] flex items-center justify-center"
-                    >
-                      <FaFacebookF className="text-blue-ribbon-500" size={16} />
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to="https://www.twitter.com/"
-                      target="_blank"
-                      className="w-12 h-12 rounded-full text-blue-ribbon-500 bg-[#EBF1FF] flex items-center justify-center"
-                    >
-                      <FaTwitter className="text-blue-ribbon-500" size={16} />
-                    </Link>
-                  </li>
-                </ul>
-              </div> */}
             </Space>
           </div>
         </Container>
