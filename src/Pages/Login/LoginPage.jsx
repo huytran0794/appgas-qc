@@ -6,19 +6,19 @@ import PageWrapper from "../../core/Components/PageWrapper/PageWrapper";
 import logoPage from "../../core/assets/images/logo.png";
 
 import LoginForm from "../../core/Components/Forms/LoginForm";
-import { Link, useNavigate } from "react-router-dom";
+// import { Link, useNavigate } from "react-router-dom";
 import CustomNotification from "../../core/Components/Notification/CustomNotification";
 import { LOCAL_SERVICE } from "../../core/services/localServ";
 
 import { checkAllInfo } from "../../core/utils/checkLogin";
 
 const LoginPage = () => {
-  const navigate = useNavigate();
-  useEffect(() => {
-    if (LOCAL_SERVICE.user.get()) {
-      navigate("/");
-    }
-  }, []);
+  // const navigate = useNavigate();
+  // useEffect(() => {
+  //   if (LOCAL_SERVICE.user.get()) {
+  //     navigate("/");
+  //   }
+  // }, []);
 
   const handleFinish = (values, buttonRef) => {
     checkAllInfo(values)
@@ -38,7 +38,7 @@ const LoginPage = () => {
       .then((res) => {
         CustomNotification("success", "Login ok", "Please wait a minute");
         setTimeout(() => {
-          navigate("/");
+          // navigate("/");
           if (res.hasOwnProperty("tasks")) {
             LOCAL_SERVICE.user.set(res, res.role);
           } else {
@@ -64,9 +64,9 @@ const LoginPage = () => {
               size={20}
             >
               <div className="form-header text-center w-full">
-                <Link to="/" className="pb-8 flex items-center justify-center">
+                {/* <Link to="/" className="pb-8 flex items-center justify-center">
                   <img src={logoPage} alt="logo-page" className="logo" />
-                </Link>
+                </Link> */}
                 <h3 className="form-title border-t border-solid border-[#EBF1FF] pt-8 text-xl font-semibold mb-0">
                   Login
                 </h3>
