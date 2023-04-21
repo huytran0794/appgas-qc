@@ -82,7 +82,7 @@ const LoginPage = () => {
   };
 
   const renderTest = () => {
-    <div className="test-text text-green-500 text-2xl"> HE HE H</div>;
+    <div className="test-text text-green-500 text-2xl"> HE HE HE</div>;
   };
   return renderTest();
 };
