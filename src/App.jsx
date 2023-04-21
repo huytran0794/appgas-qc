@@ -1,7 +1,7 @@
-// import { Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import LoginPage from "./Pages/Login/LoginPage";
 // import PrivateRoutes from "./core/routes/PrivateRoutes/PrivateRoutes";
-// import CustomLayout from "./core/Layout/CustomLayout";
+import CustomLayout from "./core/Layout/CustomLayout";
 // import CustomerManagementPage from "./Pages/CustomerManagement/CustomerManagementPage";
 // import CustomerDetail from "./Pages/CustomerManagement/Detail/CustomerDetail";
 // import EditCustomerPage from "./Pages/CustomerManagement/Edit/EditCustomerPage";
