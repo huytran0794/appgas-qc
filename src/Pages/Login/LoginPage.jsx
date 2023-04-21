@@ -81,7 +81,10 @@ const LoginPage = () => {
     );
   };
 
-  return renderPage();
+  const renderTest = () => {
+    <div className="test-text text-green-500 text-2xl"> HE HE H</div>;
+  };
+  return renderTest();
 };
 
 export default LoginPage;
