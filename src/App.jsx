@@ -62,17 +62,15 @@ function App() {
   //     </Routes>
   //   </>
   // );
+
   return (
-    <div className="bg-red-700">
-      Text Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi id
-      accusamus maiores, impedit voluptatem natus nobis doloribus error
-      cupiditate laboriosam minima veritatis! Quisquam, vero mollitia totam
-      quaerat ea in dolorem?
-      <div className="space-y-2 bg-blue-300">
-        <LoginPage />
-        {/* <p className="test-text text-green-500 text-2xl"> HE HE HE</p> */}
-      </div>
-    </div>
+    <>
+      <Routes>
+        <Route path="/" element={<CustomLayout />}>
+          <Route path="login" element={<LoginPage />} />
+        </Route>
+      </Routes>
+    </>
   );
 }
 
