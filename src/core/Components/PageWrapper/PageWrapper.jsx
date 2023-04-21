@@ -1,12 +1,12 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
+// import { useLocation } from "react-router-dom";
 
 const PageWrapper = ({ className, children }) => {
-  let location = useLocation;
+  // let location = useLocation;
   const renderPage = () => {
-    if (location.pathname === "/login") {
-      console.log("render login page");
-    }
+    // if (location.pathname === "/login") {
+    //   console.log("render login page");
+    // }
     return <div className={className}>{children}</div>;
   };
 

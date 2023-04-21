@@ -1,5 +1,5 @@
 // import { Route, Routes } from "react-router-dom";
-// import LoginPage from "./Pages/Login/LoginPage";
+import LoginPage from "./Pages/Login/LoginPage";
 // import PrivateRoutes from "./core/routes/PrivateRoutes/PrivateRoutes";
 // import CustomLayout from "./core/Layout/CustomLayout";
 // import CustomerManagementPage from "./Pages/CustomerManagement/CustomerManagementPage";
@@ -68,6 +68,9 @@ function App() {
       accusamus maiores, impedit voluptatem natus nobis doloribus error
       cupiditate laboriosam minima veritatis! Quisquam, vero mollitia totam
       quaerat ea in dolorem?
+      <div className="space-y-2 bg-blue-300">
+        <LoginPage />
+      </div>
     </div>
   );
 }
