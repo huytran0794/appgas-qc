@@ -23,7 +23,13 @@ root.render(
   //     <App />
   //   </BrowserRouter>
   // </Provider>
-  <App />
+
+  // Test only app
+  // <App />
+  // Test only app with router
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>
 );
 
 // If you want to start measuring performance in your app, pass a function

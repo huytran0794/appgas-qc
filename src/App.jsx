@@ -1,5 +1,4 @@
-// import { Route, Routes } from "react-router-dom";
-// import "./App.css";
+import { Route, Routes } from "react-router-dom";
 // import LoginPage from "./Pages/Login/LoginPage";
 // import PrivateRoutes from "./core/routes/PrivateRoutes/PrivateRoutes";
 // import CustomLayout from "./core/Layout/CustomLayout";
