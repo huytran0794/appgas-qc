@@ -10,6 +10,8 @@ import { Link, useNavigate } from "react-router-dom";
 import CustomNotification from "../../core/Components/Notification/CustomNotification";
 import { LOCAL_SERVICE } from "../../core/services/localServ";
 
+import { checkAllInfo } from "../../core/utils/checkLogin";
+
 const LoginPage = () => {
   const navigate = useNavigate();
   useEffect(() => {
@@ -18,39 +20,57 @@ const LoginPage = () => {
     }
   }, []);
 
-  // const handleFinish = (values, buttonRef) => {
-  //   checkAllInfo(values)
-  //     .then((res) => {
-  //       if (!Object.keys(res).length) {
-  //         CustomNotification(
-  //           "error",
-  //           "Login fails",
-  //           "Please check your login info again"
-  //         );
-  //         throw new Error("Fail!!!");
-  //       }
-  //       buttonRef.current.disabled = true;
+  const handleFinish = (values, buttonRef) => {
+    checkAllInfo(values)
+      .then((data) => {
+        if (!Object.keys(data).length) {
+          CustomNotification(
+            "error",
+            "Login fails",
+            "Please check your login info again"
+          );
+          throw new Error("Fail!!!");
+        }
 
-  //       return res;
-  //     })
-  //     .then((res) => {
-  //       CustomNotification("success", "Login ok", "Please wait a minute");
-  //       setTimeout(() => {
-  //         // navigate("/");
-  //         if (res.hasOwnProperty("tasks")) {
-  //           LOCAL_SERVICE.user.set(res, res.role);
-  //         } else {
-  //           LOCAL_SERVICE.user.set({ ...res, tasks: [] }, res.role);
-  //         }
-  //       }, 2500);
-  //     })
-  //     .catch((error) => {
-  //       console.log("error");
-  //       console.log(error);
-  //     });
-  // };
+        CustomNotification("success", "Login ok", "Please wait a minute");
+        setTimeout(() => {
+          navigate("/");
+          LOCAL_SERVICE.user.set(data, data.role);
+        }, 2500);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    // checkAllInfo(values)
+    //   .then((res) => {
+    //     if (!Object.keys(res).length) {
+    //       CustomNotification(
+    //         "error",
+    //         "Login fails",
+    //         "Please check your login info again"
+    //       );
+    //       throw new Error("Fail!!!");
+    //     }
+    //     buttonRef.current.disabled = true;
 
-  const handleFinish = () => {};
+    //     return res;
+    //   })
+    //   .then((res) => {
+    //     CustomNotification("success", "Login ok", "Please wait a minute");
+    //     setTimeout(() => {
+    //       navigate("/");
+    //       // if (res.hasOwnProperty("tasks")) {
+    //       //   LOCAL_SERVICE.user.set(res, res.role);
+    //       // } else {
+    //       //   LOCAL_SERVICE.user.set({ ...res, tasks: [] }, res.role);
+    //       // }
+    //     }, 2500);
+    //   })
+    //   .catch((error) => {
+    //     console.log("error");
+    //     console.log(error);
+    //   });
+  };
   const renderPage = () => {
     return (
       <PageWrapper className="page-login h-full">

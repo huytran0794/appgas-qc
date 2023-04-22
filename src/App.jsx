@@ -1,13 +1,14 @@
 import { Route, Routes } from "react-router-dom";
 import LoginPage from "./Pages/Login/LoginPage";
-// import PrivateRoutes from "./core/routes/PrivateRoutes/PrivateRoutes";
+import PrivateRoutes from "./core/routes/PrivateRoutes/PrivateRoutes";
 import CustomLayout from "./core/Layout/CustomLayout";
+import CustomerListPage from "./Pages/CustomerManagement/CustomerListPage";
+
 // import CustomerManagementPage from "./Pages/CustomerManagement/CustomerManagementPage";
 // import CustomerDetail from "./Pages/CustomerManagement/Detail/CustomerDetail";
 // import EditCustomerPage from "./Pages/CustomerManagement/Edit/EditCustomerPage";
 // import AddCustomerPage from "./Pages/CustomerManagement/Add/AddCustomerPage";
 // import AddUserPage from "./Pages/CustomerManagement/Add/AddUserPage";
-// import CustomerListPage from "./Pages/CustomerManagement/CustomerListPage";
 // import UserManagePage from "./Pages/UserManagement/UserManagePage";
 // import EditUserPage from "./Pages/UserManagement/Edit/EditUserPage";
 // import UserDetail from "./Pages/UserManagement/Detail/UserDetail";
@@ -68,6 +69,9 @@ function App() {
       <Routes>
         <Route path="/" element={<CustomLayout />}>
           <Route path="login" element={<LoginPage />} />
+          <Route element={<PrivateRoutes />}>
+            <Route index element={<CustomerListPage />} />
+          </Route>
         </Route>
       </Routes>
     </>

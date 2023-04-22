@@ -8,13 +8,11 @@ import { MdOutlineManageAccounts } from "react-icons/md";
 import { RiFileExcel2Line } from "react-icons/ri";
 import { LOCAL_SERVICE } from "../../core/services/localServ";
 
-import { storage } from "../../core/services/configFirebase";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-
 import { exportToExcel } from "../../core/Components/ExcelReport/exportExcel";
 import { sendMailWithFile } from "../../core/Components/Email/sendMail";
 import CustomNotification from "../../core/Components/Notification/CustomNotification";
-import CUSTOMER_SERVICE_FIREBASE from "../../core/services/customerServ.firebase";
+
+import CUSTOMER_SERVICE from "../../core/services/customer.service";
 
 const CustomerListPage = () => {
   const [search, setSearch] = useState("");
@@ -23,20 +21,23 @@ const CustomerListPage = () => {
 
   useEffect(() => {
     let returnedData = [];
-    CUSTOMER_SERVICE_FIREBASE.getCustomerList()
-      .then((snapshot) => {
-        if (snapshot.exists()) {
-          snapshot.forEach((item) => {
-            returnedData = [
-              ...returnedData,
-              {
-                ...item.val(),
-                id: item.key,
-              },
-            ];
-          });
-          setCustomerList(returnedData);
-        }
+    CUSTOMER_SERVICE.getAllCustomers()
+      .then((data) => {
+        // if (snapshot.exists()) {
+        //   snapshot.forEach((item) => {
+        //     returnedData = [
+        //       ...returnedData,
+        //       {
+        //         ...item.val(),
+        //         id: item.key,
+        //       },
+        //     ];
+        //   });
+        //   setCustomerList(returnedData);
+        // }
+        console.log("data");
+        console.log(data);
+        setCustomerList(data);
       })
       .catch((error) => {
         console.log(error);
@@ -54,29 +55,31 @@ const CustomerListPage = () => {
       customerList
     );
 
-    const fileRef = ref(storage, `files/${fileName}_${currentDate}.xlsx`);
-    uploadBytes(fileRef, fileBlobData)
-      .then(() => {
-        CustomNotification("info", "Exporting data", "Please wait a minute");
-        return getDownloadURL(fileRef);
-      })
-      .then((url) => {
-        let templateParams = {
-          from_name: "system",
-          message: `Link download: ${url}`,
-          to_email: LOCAL_SERVICE.user.get().email,
-        };
-        return sendMailWithFile(templateParams);
-      })
-      .then((result) => {
-        CustomNotification("success", "Email is sent", "Please check your inbox");
-        console.log("result");
-        console.log(result.text);
-      })
-      .catch((error) => {
-        CustomNotification("error", "Error", "Something went wrong");
-        console.log(error);
-      });
+    // const fileRef = ref(storage, `files/${fileName}_${currentDate}.xlsx`);
+    // uploadBytes(fileRef, fileBlobData)
+    //   .then(() => {
+    //     CustomNotification("info", "Exporting data", "Please wait a minute");
+    //     return getDownloadURL(fileRef);
+    //   })
+    //   .then((url) => {
+    //     let templateParams = {
+    //       from_name: "system",
+    //       message: `Link download: ${url}`,
+    //       to_email: LOCAL_SERVICE.user.get().email,
+    //     };
+    //     return sendMailWithFile(templateParams);
+    //   })
+    //   .then((result) => {
+    //     CustomNotification(
+    //       "success",
+    //       "Email is sent",
+    //       "Please check your inbox"
+    //     );
+    //   })
+    //   .catch((error) => {
+    //     CustomNotification("error", "Error", "Something went wrong");
+    //     console.log(error);
+    //   });
   };
 
   let renderTitle = () => {

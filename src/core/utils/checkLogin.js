@@ -1,4 +1,4 @@
-import USER_SERVICE_FIREBASE from "../services/userServ.firebase";
+import USER_SERVICE from "../services/user.service";
 
 const checkLogin = (item, values) => {
   return item.findIndex(
@@ -6,76 +6,63 @@ const checkLogin = (item, values) => {
   );
 };
 
-const checkAdminInfo = async (values) => {
-  return USER_SERVICE_FIREBASE.getAdminInfo()
-    .then((snapshot) => {
-      if (snapshot.exists()) {
-        let userData = {};
-        snapshot.forEach((item) => {
-          let val = item.val();
-          if (val.email === values.email && val.password === values.password) {
-            userData = { ...val, id: item.key, role: "admin" };
-            return true;
-          }
-        });
-
-        return userData;
+const checkAdminInfo = async ({ email, password }) => {
+  let userData = {};
+  return USER_SERVICE.getAllAdmins()
+    .then((data) => {
+      if (data.length) {
+        userData = data.find(
+          (user) => user.email === email && user.password === password
+        );
       }
-      return {};
+      return userData ? { userData, role: "admin" } : {};
     })
     .catch((error) => {
       console.log(error);
     });
 };
 
-const checkUserInfo = async (values) => {
-  return USER_SERVICE_FIREBASE.getUserInfo()
-    .then((snapshot) => {
-      let userData = {};
-      if (snapshot.exists()) {
-        snapshot.forEach((item) => {
-          let val = item.val();
-          if (val.email === values.email && val.password === values.password) {
-            userData = { ...val, id: item.key, role: "user" };
-            return true;
-          }
-        });
-        return userData;
+const checkUserInfo = async ({ email, password }) => {
+  let userData = {};
+  return USER_SERVICE.getAllUsers()
+    .then((data) => {
+      if (data.length) {
+        userData = data.find(
+          (user) => user.email === email && user.password === password
+        );
       }
-      return {};
+
+      return userData ? { userData, role: "user" } : {};
     })
     .catch((error) => {
       console.log(error);
     });
 };
 
-const checkMasterInfo = async (values) => {
-  return USER_SERVICE_FIREBASE.getMasterInfo()
-    .then((snapshot) => {
-      let userData = {};
-      if (snapshot.exists()) {
-        snapshot.forEach((item) => {
-          let val = item.val();
-          if (val.email === values.email && val.password === values.password) {
-            userData = { ...val, id: item.key, role: "master" };
-            return true;
-          }
-        });
-        return userData;
+const checkMasterInfo = async ({ email, password }) => {
+  let userData = {};
+  return USER_SERVICE.getAllMasters()
+    .then((data) => {
+      if (data.length) {
+        userData = data.find(
+          (user) => user.email === email && user.password === password
+        );
       }
-      return {};
+
+      return userData ? { userData, role: "master" } : {};
     })
     .catch((error) => {
       console.log(error);
+      return error;
     });
 };
 
 const checkAllInfo = async (values) => {
-  let userData;
+  let userData = {};
   try {
-    userData = await checkAdminInfo(values);
+    userData = await checkUserInfo(values);
     if (!Object.keys(userData).length) {
-      userData = await checkUserInfo(values);
+      userData = await checkAdminInfo(values);
     }
     if (!Object.keys(userData).length) {
       userData = await checkMasterInfo(values);

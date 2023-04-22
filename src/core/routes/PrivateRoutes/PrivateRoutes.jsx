@@ -38,30 +38,28 @@ const PrivateRoutes = () => {
     }
   };
 
-  useEffect(() => {
-    if (auth && auth.role.toLowerCase() === "user") {
-      // check if user already has taksks or not
-      console.log("role");
-      console.log(auth.role);
-      USER_SERVICE_FIREBASE.getSingleUserInfo(auth.id)
-        .then((snapshot) => {
-          if (snapshot.exists()) {
-            if (snapshot.val().hasOwnProperty("tasks")) {
-              USER_SERVICE_FIREBASE.assignTask(auth.id, true, callbackFunction);
-            } else {
-              USER_SERVICE_FIREBASE.assignTask(
-                auth.id,
-                false,
-                callbackFunction
-              );
-            }
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (auth && auth.role.toLowerCase() === "user") {
+  //     // check if user already has taksks or not
+  //     USER_SERVICE_FIREBASE.getSingleUserInfo(auth.id)
+  //       .then((snapshot) => {
+  //         if (snapshot.exists()) {
+  //           if (snapshot.val().hasOwnProperty("tasks")) {
+  //             USER_SERVICE_FIREBASE.assignTask(auth.id, true, callbackFunction);
+  //           } else {
+  //             USER_SERVICE_FIREBASE.assignTask(
+  //               auth.id,
+  //               false,
+  //               callbackFunction
+  //             );
+  //           }
+  //         }
+  //       })
+  //       .catch((error) => {
+  //         console.log(error);
+  //       });
+  //   }
+  // }, []);
 
   return auth ? <Outlet /> : <Navigate to="login" />;
 };
