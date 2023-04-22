@@ -20,23 +20,8 @@ const CustomerListPage = () => {
   const [customerList, setCustomerList] = useState([]);
 
   useEffect(() => {
-    let returnedData = [];
     CUSTOMER_SERVICE.getAllCustomers()
       .then((data) => {
-        // if (snapshot.exists()) {
-        //   snapshot.forEach((item) => {
-        //     returnedData = [
-        //       ...returnedData,
-        //       {
-        //         ...item.val(),
-        //         id: item.key,
-        //       },
-        //     ];
-        //   });
-        //   setCustomerList(returnedData);
-        // }
-        console.log("data");
-        console.log(data);
         setCustomerList(data);
       })
       .catch((error) => {

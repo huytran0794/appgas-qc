@@ -7,27 +7,18 @@ import Header from "../../../core/Components/Header/Header";
 
 import { isValidUrl } from "../../../core/utils/utils";
 import avatar from "../../../core/assets/images/avatar_2.svg";
-import CUSTOMER_SERVICE_FIREBASE from "../../../core/services/customerServ.firebase";
 import clsx from "clsx";
+import CUSTOMER_SERVICE from "../../../core/services/customer.service";
 
 const EditCustomerPage = () => {
   const { id } = useParams();
   let [customerInfo, setCustomerInfo] = useState({});
   const bgClass = "bg-white rounded-lg shadow-lg p-2";
-
   useEffect(() => {
-    let returnedData = {};
-    CUSTOMER_SERVICE_FIREBASE.getCustomerInfo(id)
-      .then((snapshot) => {
-        if (snapshot.exists()) {
-          let item = snapshot.val();
-          returnedData = { ...item, id: id };
-          if (!item.hasOwnProperty("order_history")) {
-            returnedData = { ...returnedData, order_history: [] };
-            returnedData.note = returnedData.note.trim();
-          }
-          setCustomerInfo(returnedData);
-        }
+    CUSTOMER_SERVICE.getCustomer(id)
+      .then((data) => {
+        data.note = data.note.trim();
+        setCustomerInfo(data);
       })
       .catch((error) => {
         console.log(error);

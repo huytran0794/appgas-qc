@@ -3,7 +3,6 @@ import { useEffect } from "react";
 import { Navigate, Outlet, useNavigate } from "react-router-dom";
 import CustomNotification from "../../Components/Notification/CustomNotification";
 import { LOCAL_SERVICE } from "../../services/localServ";
-import USER_SERVICE_FIREBASE from "../../services/userServ.firebase";
 
 const PrivateRoutes = () => {
   const navigate = useNavigate();

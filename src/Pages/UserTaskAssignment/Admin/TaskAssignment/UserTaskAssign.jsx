@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 import CustomerInputForm from "../../../../core/Components/Forms/CustomerInputForm";
 import SectionWrapper from "../../../../core/Components/SectionWrapper/SectionWrapper";
 import Header from "../../../../core/Components/Header/Header";
-import USER_SERVICE_FIREBASE from "../../../../core/services/userServ.firebase";
+import USER_SERVICE from "../../../../core/services/user.service";
 
 const UserTaskAssign = () => {
   const { id } = useParams();
@@ -14,15 +14,10 @@ const UserTaskAssign = () => {
   let [userInfo, setUserInfo] = useState({});
 
   useEffect(() => {
-    let returnedData = {};
-    USER_SERVICE_FIREBASE.getSingleUserInfo(id)
-      .then((snapshot) => {
-        if (snapshot.exists()) {
-          returnedData = { ...snapshot.val(), id: snapshot.key };
-          if (!snapshot.val().hasOwnProperty("tasks")) {
-            returnedData = { ...returnedData, tasks: [] };
-          }
-          setUserInfo(returnedData);
+    USER_SERVICE.getUserById(id)
+      .then((data) => {
+        if (Object.keys(data).length) {
+          setUserInfo({ id: id, ...data });
         }
       })
       .catch((error) => {

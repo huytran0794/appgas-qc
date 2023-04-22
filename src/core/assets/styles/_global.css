@@ -204,12 +204,20 @@ body {
 .add-user-form input,
 .add-customer-form input,
 .add-customer-form textarea,
-.edit-customer-form input {
-  height: 60px !important;
+.edit-customer-form input,
+.edit-customer-form textarea {
   color: #292d32 !important;
   border: 1px solid #eaecf1 !important;
   background-color: #eaecf1 !important;
   padding: 10px 20px !important;
+}
+
+.add-admin-form input,
+.add-user-form input,
+.add-customer-form input,
+.add-customer-form textarea,
+.edit-customer-form input {
+  height: 60px !important;
 }
 
 /* .edit-customer .container .wrapper {

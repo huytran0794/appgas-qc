@@ -6,10 +6,10 @@ import TextArea from "antd/es/input/TextArea";
 import { nanoid } from "@reduxjs/toolkit";
 
 import CustomNotification from "../Notification/CustomNotification";
-import CUSTOMER_SERVICE_FIREBASE from "../../services/customerServ.firebase";
-import USER_SERVICE_FIREBASE from "../../services/userServ.firebase";
 
-import {isValidCoordinate} from "../../utils/utils";
+import { isValidCoordinate } from "../../utils/utils";
+import CUSTOMER_SERVICE from "../../services/customer.service";
+import USER_SERVICE from "../../services/user.service";
 
 const TaskDetailForm = ({
   layout = "vertical",
@@ -20,20 +20,14 @@ const TaskDetailForm = ({
   const navigate = useNavigate();
   const [form] = Form.useForm();
 
-  let initialValues = { ...taskInfo, specialNote: "" };
+  let initialValues = { ...taskInfo };
 
   const [customerInfo, setCustomerInfo] = useState({});
-
   useEffect(() => {
-    let returnedData = {};
-    CUSTOMER_SERVICE_FIREBASE.getCustomerInfo(taskInfo.customer_id)
-      .then((snapshot) => {
-        if (snapshot.exists()) {
-          returnedData = { ...snapshot.val(), id: taskInfo.customer_id };
-          if (!snapshot.val().hasOwnProperty("order_history")) {
-            returnedData = { ...returnedData, order_history: [] };
-          }
-          setCustomerInfo(returnedData);
+    CUSTOMER_SERVICE.getCustomer(taskInfo.customer_id)
+      .then((data) => {
+        if (Object.keys(data).length) {
+          setCustomerInfo(data);
         }
       })
       .catch((err) => {});
@@ -57,33 +51,28 @@ const TaskDetailForm = ({
       complete_date: completeDateTime.toLocaleDateString("en-US", options),
     };
 
-    let { id, ...newCustomerData } = customerInfo;
-    newCustomerData = {
-      ...newCustomerData,
-      order_history: [...newCustomerData.order_history, newOrderHistory],
+    let newCustomerInfo = {
+      ...customerInfo,
+      order_history: [...customerInfo.order_history, newOrderHistory],
     };
+
     taskInfo.completed = true;
-    console.log("task info id");
-    console.log(taskInfo);
-    console.log("userInfo");
-    console.log(userInfo.tasks);
     let taskIdx = userInfo.tasks.findIndex((task) => task.id === taskInfo.id);
     if (taskIdx > -1) {
       userInfo.tasks[taskIdx] = { ...taskInfo };
-
-      let { id, ...newUserData } = userInfo;
       Promise.all([
-        CUSTOMER_SERVICE_FIREBASE.updateCustomer(
-          taskInfo.customer_id,
-          newCustomerData
-        ),
-        USER_SERVICE_FIREBASE.updateUser(userInfo.id, newUserData),
+        CUSTOMER_SERVICE.updateCustomer(taskInfo.customer_id, newCustomerInfo),
+        USER_SERVICE.updateUser(userInfo.id, userInfo),
       ])
         .then(() => {
-          CustomNotification("success", `Complete`, `Task ${taskInfo.id} completed`);
+          CustomNotification(
+            "success",
+            `Complete`,
+            `Task ${taskInfo.id} completed`
+          );
           setTimeout(() => {
             navigate("/user/task-tracking");
-          }, 1000);
+          }, 2500);
         })
         .catch((err) => {
           console.log(err);
@@ -106,7 +95,6 @@ const TaskDetailForm = ({
       longtitude = mapCoordinate[1].trim();
       mapUrl = `https://www.google.pt/maps/dir//${latitude},${longtitude}/@${latitude},${longtitude},20z`;
     }
-
 
     initialValues.map = mapUrl;
 
@@ -134,7 +122,10 @@ const TaskDetailForm = ({
             <Input placeholder="Google map" disabled />
           </Form.Item>
           <div className="action">
-            <a href={initialValues.map ? initialValues.map: "#"} target="_blank">
+            <a
+              href={initialValues.map ? initialValues.map : "#"}
+              target="_blank"
+            >
               <img
                 src="https://templates.envytheme.com/joxi/default/assets/images/icon/maximize.svg"
                 alt="map"
@@ -172,7 +163,7 @@ const TaskDetailForm = ({
       </Form>
     );
   };
-  if (Object.keys(customerInfo).length) {
+  if (Object.keys(taskInfo).length && Object.keys(customerInfo).length) {
     initialValues = { ...initialValues, specialNote: customerInfo.note };
     return renderForm();
   }

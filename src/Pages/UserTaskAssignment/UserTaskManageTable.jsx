@@ -1,36 +1,9 @@
 import { Table } from "antd";
-import React, { useEffect, useState } from "react";
-import USER_SERVICE_FIREBASE from "../../core/services/userServ.firebase";
+import React from "react";
 
 import UserActionButtons from "./UserTaskActionButtons";
 
-const UserTaskManageTable = () => {
-  const [userList, setUserList] = useState([]);
-  // fetch api
-  useEffect(() => {
-    let returnedData = [];
-    USER_SERVICE_FIREBASE.getUserInfo()
-      .then((snapshot) => {
-        if (snapshot.exists()) {
-          snapshot.forEach((item) => {
-            returnedData = [
-              ...returnedData,
-              {
-                key: item.key,
-                ...item.val(),
-                id: item.key,
-              },
-            ];
-          });
-          setUserList(returnedData);
-        }
-      })
-      .catch((error) => {
-        console.log("error");
-        console.log(error);
-      });
-  }, []);
-
+const UserTaskManageTable = ({ userList }) => {
   const columns = [
     {
       title: "User Name",

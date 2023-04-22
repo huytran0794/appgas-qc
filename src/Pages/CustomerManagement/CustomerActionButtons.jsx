@@ -10,7 +10,8 @@ import { DesktopView, MobileView } from "../../core/HOC/Responsive";
 
 import { TfiMore } from "react-icons/tfi";
 import { useState } from "react";
-import CUSTOMER_SERVICE_FIREBASE from "../../core/services/customerServ.firebase";
+import CUSTOMER_SERVICE from "../../core/services/customer.service";
+import CustomNotification from "../../core/Components/Notification/CustomNotification";
 
 const CustomerActionButtons = ({ customerData }) => {
   const { confirm } = Modal;
@@ -57,9 +58,22 @@ const CustomerActionButtons = ({ customerData }) => {
   };
 
   const deleteCustomer = (customerData) => {
-    CUSTOMER_SERVICE_FIREBASE.deleteCustomer(customerData.id)
-      .then(() => {})
-      .catch((error) => {});
+    CUSTOMER_SERVICE.deleteCustomer(customerData.id)
+      .then(() => {
+        console.log("delete customer");
+        CustomNotification(
+          "success",
+          "Delete customer ok",
+          "Please wait a minute"
+        );
+        setTimeout(() => {
+          navigate("/");
+        }, 2000);
+      })
+      .catch((error) => {
+        console.log("error");
+        console.log(error);
+      });
   };
 
   const handleView = (customerData) => {

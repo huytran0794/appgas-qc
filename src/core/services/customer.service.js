@@ -1,33 +1,32 @@
 import { AXIOS_INSTANCE_GENERATOR } from "./configURL";
 
-const API_URL = AXIOS_INSTANCE_GENERATOR("customers");
-
 const CUSTOMER_SERVICE = {
-  //   getAllUser: async () => {
-  //     let { data } = await AXIOS_INSTANCE_GENERATOR(BASE_USER_URL).get(
-  //       `/getUser`
-  //     );
-  //     return data;
-  //   },
-
   getAllCustomers: async () => {
-    let { data } = await API_URL.get();
+    let { data } = await AXIOS_INSTANCE_GENERATOR().get(`customers`);
     return data;
   },
-  //   getCustomer: (customerId) => {
-  //     return get(child(generateDbRef(), `/customers/${customerId}`));
-  //   },
-  //   deleteCustomer: (customerId) => {
-  //     return remove(generateDbRef(`/customers/${customerId}`));
-  //   },
-
-  //   updateCustomer: (customerId, newCustomerData) => {
-  //     return update(generateDbRef(`/customers/${customerId}`), newCustomerData);
-  //   },
-
-  //   addCustomer: (customerId, newCustomerData) => {
-  //     return set(generateDbRef(`/customers/${customerId}`), newCustomerData);
-  //   },
+  getCustomer: async (id) => {
+    let { data } = await AXIOS_INSTANCE_GENERATOR().get(`customers/${id}`);
+    return data;
+  },
+  updateCustomer: async (id, newCustomerData) => {
+    let { data } = await AXIOS_INSTANCE_GENERATOR().put(
+      `customers/${id}`,
+      newCustomerData
+    );
+    return data;
+  },
+  deleteCustomer: async (id) => {
+    let { data } = await AXIOS_INSTANCE_GENERATOR().delete(`customers/${id}`);
+    return data;
+  },
+  addCustomer: async (newCustomerData) => {
+    let { data } = await AXIOS_INSTANCE_GENERATOR().post(
+      `customers`,
+      newCustomerData
+    );
+    return data;
+  },
 };
 
 export default CUSTOMER_SERVICE;

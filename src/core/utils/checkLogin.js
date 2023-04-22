@@ -15,7 +15,7 @@ const checkAdminInfo = async ({ email, password }) => {
           (user) => user.email === email && user.password === password
         );
       }
-      return userData ? { userData, role: "admin" } : {};
+      return userData ? { ...userData, role: "admin" } : {};
     })
     .catch((error) => {
       console.log(error);
@@ -32,7 +32,7 @@ const checkUserInfo = async ({ email, password }) => {
         );
       }
 
-      return userData ? { userData, role: "user" } : {};
+      return userData ? { ...userData, role: "user" } : {};
     })
     .catch((error) => {
       console.log(error);
@@ -49,7 +49,7 @@ const checkMasterInfo = async ({ email, password }) => {
         );
       }
 
-      return userData ? { userData, role: "master" } : {};
+      return userData ? { ...userData, role: "master" } : {};
     })
     .catch((error) => {
       console.log(error);

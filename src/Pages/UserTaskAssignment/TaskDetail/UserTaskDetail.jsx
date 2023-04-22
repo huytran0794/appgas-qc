@@ -4,30 +4,23 @@ import TaskDetailForm from "../../../core/Components/Forms/TaskDetailForm";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import SectionWrapper from "../../../core/Components/SectionWrapper/SectionWrapper";
-import USER_SERVICE_FIREBASE from "../../../core/services/userServ.firebase";
 import { LOCAL_SERVICE } from "../../../core/services/localServ";
 import clsx from "clsx";
+import USER_SERVICE from "../../../core/services/user.service";
 
 const UserTaskDetail = () => {
-  const { id } = useParams();
+  const { taskId } = useParams();
   let [taskInfo, setTaskInfo] = useState({});
   let userInfo = LOCAL_SERVICE.user.get();
   const bgClass = "bg-white rounded-lg shadow-lg p-2";
 
   useEffect(() => {
-    USER_SERVICE_FIREBASE.getSingleUserInfo(userInfo.id)
-      .then((snapshot) => {
-        if (snapshot.exists()) {
-          if (snapshot.val().hasOwnProperty("tasks")) {
-            userInfo.tasks = [...snapshot.val().tasks];
-            let taskIdx = snapshot
-              .val()
-              .tasks.findIndex((task) => task.id === id);
-            if (taskIdx > -1) {
-              setTaskInfo(snapshot.val().tasks[taskIdx]);
-            }
-          } else {
-            userInfo.tasks = [];
+    USER_SERVICE.getUserById(userInfo.id)
+      .then((data) => {
+        if (Object.keys(data).length) {
+          let taskIdx = data.tasks.findIndex((task) => task.id === taskId);
+          if (taskIdx > -1) {
+            setTaskInfo(data.tasks[taskIdx]);
           }
         }
       })

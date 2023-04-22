@@ -10,7 +10,8 @@ import { useNavigate } from "react-router-dom";
 import { DesktopView, MobileView } from "../../core/HOC/Responsive";
 
 import { TfiMore } from "react-icons/tfi";
-import USER_SERVICE_FIREBASE from "../../core/services/userServ.firebase";
+import USER_SERVICE from "../../core/services/user.service";
+import CustomNotification from "../../core/Components/Notification/CustomNotification";
 
 const UserActionButtons = ({ userData }) => {
   const { confirm } = Modal;
@@ -38,7 +39,7 @@ const UserActionButtons = ({ userData }) => {
     });
   };
 
-  const handleDeleteCustomer = (userData) => {
+  const handleDeleteUser = (userData) => {
     showDeleteConfirm(
       `Are you sure you want to delete user ${userData.username} ?`,
       "",
@@ -47,9 +48,17 @@ const UserActionButtons = ({ userData }) => {
   };
 
   const deleteUser = (userData) => {
-    USER_SERVICE_FIREBASE.deleteUser(userData.id)
-      .then(() => {})
-      .catch((error) => {});
+    USER_SERVICE.deleteUser(userData.id)
+      .then(() => {
+        CustomNotification("success", "Delete user ok", "Please wait a minute");
+        setTimeout(() => {
+          navigate("/admin/user-management");
+        }, 2000);
+      })
+      .catch((error) => {
+        console.log("error");
+        console.log(error);
+      });
   };
 
   const handleView = (userData) => {
@@ -85,7 +94,7 @@ const UserActionButtons = ({ userData }) => {
         />
         <FiTrash
           onClick={() => {
-            handleDeleteCustomer(userData);
+            handleDeleteUser(userData);
           }}
           className="cursor-pointer"
           size={"20px"}
@@ -111,7 +120,7 @@ const UserActionButtons = ({ userData }) => {
         />
         <FiTrash
           onClick={() => {
-            handleDeleteCustomer(userData);
+            handleDeleteUser(userData);
           }}
           className="cursor-pointer"
           size={"20px"}

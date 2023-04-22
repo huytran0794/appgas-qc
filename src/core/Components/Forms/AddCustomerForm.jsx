@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Label from "../../../../src/core/Components/Forms/Label/Label";
 import CustomNotification from "../Notification/CustomNotification";
 import TextArea from "antd/es/input/TextArea";
-import CUSTOMER_SERVICE_FIREBASE from "../../../core/services/customerServ.firebase";
+import CUSTOMER_SERVICE from "../../services/customer.service";
 const AddCustomerForm = ({
   layout = "vertical",
   size = "large",
@@ -13,34 +13,23 @@ const AddCustomerForm = ({
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const initialValues = { ...customerInfo };
-  const [customerId, setCustomerId] = useState("");
-
-  useEffect(() => {
-    CUSTOMER_SERVICE_FIREBASE.getLastDataRef("/customers")
-      .then((snapshot) => {
-        if (snapshot.exists()) {
-          snapshot.forEach((item) => {
-            setCustomerId(parseInt(item.key) + 1);
-          });
-        }
-      })
-      .catch((error) => {
-        console.log("error");
-        console.log(error);
-      });
-  }, []);
 
   const handleFinish = (values) => {
     values = { ...values, order_history: [] };
-    if(!values.note) {
+    if (!values.note) {
       values.note = "";
     }
-    CUSTOMER_SERVICE_FIREBASE.addCustomer(customerId, values)
+    values.note = values.note.trim();
+    CUSTOMER_SERVICE.addCustomer(values)
       .then(() => {
-        CustomNotification("success", "Add new customer ok", "Please wait a minute");
+        CustomNotification(
+          "success",
+          "Add new customer ok",
+          "Please wait a minute"
+        );
         setTimeout(() => {
           navigate("/");
-        }, 1000);
+        }, 2000);
       })
       .catch((error) => {
         console.log("error");

@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import CustomerManageTable from "./CustomerManageTable";
 import SectionWrapper from "../../core/Components/SectionWrapper/SectionWrapper";
 import Header from "../../core/Components/Header/Header";
-import CUSTOMER_SERVICE_FIREBASE from "../../core/services/customerServ.firebase";
+import CUSTOMER_SERVICE from "../../core/services/customer.service";
+
 const CustomerManagementPage = () => {
   const [search, setSearch] = useState("");
   let handleSearchInput = (searchTxt) => {
@@ -11,24 +12,14 @@ const CustomerManagementPage = () => {
   const [customerList, setCustomerList] = useState([]);
 
   useEffect(() => {
-    let getSnapShot = (snapshot) => {
-      let returnedData = [];
-      snapshot.forEach((item) => {
-        returnedData = [
-          ...returnedData,
-          {
-            ...item.val(),
-            id: item.key,
-          },
-        ];
+    CUSTOMER_SERVICE.getAllCustomers()
+      .then((data) => {
+        setCustomerList(data);
+      })
+      .catch((error) => {
+        console.log(error);
       });
-
-      setCustomerList(returnedData);
-    };
-    CUSTOMER_SERVICE_FIREBASE.getCustomerInfoObserver(getSnapShot);
   }, []);
-
- 
 
   if (customerList.length) {
     return (

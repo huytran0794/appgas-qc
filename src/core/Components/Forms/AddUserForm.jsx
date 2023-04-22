@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Button, Form, Input } from "antd";
-import USER_SERVICE_FIREBASE from "../../services/userServ.firebase";
 import Label from "./Label/Label";
 import { useNavigate } from "react-router-dom";
 import CustomNotification from "../Notification/CustomNotification";
+import USER_SERVICE from "../../services/user.service";
 
 const AddUserForm = ({ layout = "vertical", size = "large", customerInfo }) => {
   const [form] = Form.useForm();
@@ -16,50 +16,18 @@ const AddUserForm = ({ layout = "vertical", size = "large", customerInfo }) => {
 
   const navigate = useNavigate();
 
-  const [userId, setUserId] = useState("");
-
-  useEffect(() => {
-    USER_SERVICE_FIREBASE.getLastDataRef("/users")
-      .then((snapshot) => {
-        if (snapshot.exists()) {
-          snapshot.forEach((item) => {
-            setUserId(parseInt(item.key) + 1);
-          });
-        }
-      })
-      .catch((error) => {
-        console.log("error");
-        console.log(error);
-      });
-  }, []);
-
   const handleFinish = (values) => {
     values = { ...values, tasks: [] };
-    // let newUserData;
-    // newUserData = getMessagingToken()
-    //   .then((tk) => {
-    //     console.log("new user token");
-    //     return { ...values, token: tk };
-    //   })
-    //   .then((newUserData) => {
-    //     return USER_SERVICE_FIREBASE.addUser(userId, newUserData);
-    //   })
-    //   .then(() => {
-    //     Notification("success", "Add new user ok", "Please wait a minute");
-    //     setTimeout(() => {
-    //       navigate("/admin/user-management");
-    //     }, 1200);
-    //   })
-    //   .catch((error) => {
-    //     console.log("error");
-    //     console.log(error);
-    //   });
-    USER_SERVICE_FIREBASE.addUser(userId, values)
+    USER_SERVICE.addUser(values)
       .then(() => {
-        CustomNotification("success", "Add new user ok", "Please wait a minute");
+        CustomNotification(
+          "success",
+          "Add new user ok",
+          "Please wait a minute"
+        );
         setTimeout(() => {
           navigate("/admin/user-management");
-        }, 1200);
+        }, 3000);
       })
       .catch((error) => {
         console.log("error");

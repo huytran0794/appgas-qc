@@ -7,8 +7,8 @@ import Header from "../../../core/Components/Header/Header";
 import EditUserForm from "../../../core/Components/Forms/EditUserForm";
 
 import avatar from "../../../core/assets/images/avatar.svg";
-import USER_SERVICE_FIREBASE from "../../../core/services/userServ.firebase";
 import clsx from "clsx";
+import USER_SERVICE from "../../../core/services/user.service";
 
 const EditUserPage = () => {
   const { id } = useParams();
@@ -17,11 +17,10 @@ const EditUserPage = () => {
   const bgClass = "bg-white rounded-lg shadow-lg p-2";
 
   useEffect(() => {
-    USER_SERVICE_FIREBASE.getSingleUserInfo(id)
-      .then((snapshot) => {
-        if (snapshot.exists()) {
-          console.log(snapshot);
-          setUserInfo({ ...snapshot.val(), id: snapshot.key });
+    USER_SERVICE.getUserById(id)
+      .then((data) => {
+        if (Object.keys(data).length) {
+          setUserInfo(data);
         }
       })
       .catch((error) => {

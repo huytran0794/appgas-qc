@@ -10,25 +10,15 @@ import CustomerOrderHistory from "./CustomerOrderHistory";
 
 import avatar from "../../../core/assets/images/avatar.svg";
 import { isValidUrl } from "../../../core/utils/utils";
-import CUSTOMER_SERVICE_FIREBASE from "../../../core/services/customerServ.firebase";
+import CUSTOMER_SERVICE from "../../../core/services/customer.service";
 
 const CustomerDetail = () => {
   const { id } = useParams();
-
   let [customerInfo, setCustomerInfo] = useState({});
-
   useEffect(() => {
-    let returnedData = {};
-    CUSTOMER_SERVICE_FIREBASE.getCustomerInfo(id)
-      .then((snapshot) => {
-        if (snapshot.exists()) {
-          let item = snapshot.val();
-          returnedData = { ...item, id: id };
-          if (!item.hasOwnProperty("order_history")) {
-            returnedData = { ...returnedData, order_history: [] };
-          }
-          setCustomerInfo(returnedData);
-        }
+    CUSTOMER_SERVICE.getCustomer(id)
+      .then((data) => {
+        setCustomerInfo(data);
       })
       .catch((error) => {
         console.log(error);

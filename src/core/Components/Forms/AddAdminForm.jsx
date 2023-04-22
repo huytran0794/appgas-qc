@@ -2,31 +2,17 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Form, Input } from "antd";
 import Label from "./Label/Label";
-import MASTER_SERVICE_FIREBASE from "../../services/masterServ.firebase";
 import { LOCAL_SERVICE } from "../../services/localServ";
 import CustomNotification from "../Notification/CustomNotification";
+import MASTER_SERVICE from "../../services/master.service";
 
 const AddAdminForm = ({ layout = "vertical", size = "large" }) => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
-  const [adminId, setAdminId] = useState();
 
   useEffect(() => {
     if (LOCAL_SERVICE.user.getRole() !== "master") {
       navigate("/");
-    } else {
-      MASTER_SERVICE_FIREBASE.getLastDataRef("/admin")
-        .then((snapshot) => {
-          if (snapshot.exists()) {
-            snapshot.forEach((item) => {
-              setAdminId(parseInt(item.key) + 1);
-            });
-          }
-        })
-        .catch((error) => {
-          console.log("error");
-          console.log(error);
-        });
     }
   }, []);
 
@@ -36,12 +22,16 @@ const AddAdminForm = ({ layout = "vertical", size = "large" }) => {
     </Label>
   );
   const handleFinish = (values) => {
-    MASTER_SERVICE_FIREBASE.addAdminInfo(adminId, values)
+    MASTER_SERVICE.addAdmin(values)
       .then(() => {
-        CustomNotification("success", "Add new admin ok", "Please wait a minute");
+        CustomNotification(
+          "success",
+          "Add new admin ok",
+          "Please wait a minute"
+        );
         setTimeout(() => {
           navigate("/");
-        }, 1200);
+        }, 2500);
       })
       .catch((error) => {
         console.log(error);

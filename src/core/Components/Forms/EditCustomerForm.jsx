@@ -1,33 +1,29 @@
 import { Button, Form, Input } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import React from "react";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Label from "../../Components/Forms/Label/Label";
-import { userActions } from "../../redux/slice/userSlice";
-import CUSTOMER_SERVICE_FIREBASE from "../../services/customerServ.firebase";
 import CustomNotification from "../Notification/CustomNotification";
+import CUSTOMER_SERVICE from "../../services/customer.service";
 
 const EditCustomerForm = ({
   layout = "vertical",
   size = "large",
   customerInfo,
 }) => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const initialValues = { ...customerInfo };
   const handleFinish = (values) => {
-    let { id, ...customerData } = customerInfo;
-    CUSTOMER_SERVICE_FIREBASE.updateCustomer(customerInfo.id, {
-      ...customerData,
-      ...values,
-    })
+    CUSTOMER_SERVICE.updateCustomer(customerInfo.id, values)
       .then((res) => {
-        CustomNotification("success", "Update customer ok", "Please wait a minute");
+        CustomNotification(
+          "success",
+          "Update customer ok",
+          "Please wait a minute"
+        );
         setTimeout(() => {
           navigate("/manager");
-          dispatch(userActions.setUserProfile(values));
         }, 2500);
       })
       .catch((error) => {

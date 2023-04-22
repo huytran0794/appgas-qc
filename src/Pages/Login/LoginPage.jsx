@@ -23,6 +23,7 @@ const LoginPage = () => {
   const handleFinish = (values, buttonRef) => {
     checkAllInfo(values)
       .then((data) => {
+        console.log(data);
         if (!Object.keys(data).length) {
           CustomNotification(
             "error",

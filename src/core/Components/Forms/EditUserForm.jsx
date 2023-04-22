@@ -2,25 +2,20 @@ import { Button, Form, Input } from "antd";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import Label from "../../Components/Forms/Label/Label";
-
-import USER_SERVICE_FIREBASE from "../../services/userServ.firebase";
 import CustomNotification from "../Notification/CustomNotification";
+import USER_SERVICE from "../../services/user.service";
 
 const EditUserForm = ({ layout = "vertical", size = "large", userInfo }) => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const initialValues = { ...userInfo };
-  console.log("userinfo");
-  console.log(userInfo);
+
   const handleFinish = (values) => {
-    USER_SERVICE_FIREBASE.updateUser(userInfo.id, {
-      ...userInfo,
-      ...values,
-    })
-      .then(() => {
-        CustomNotification("success", "Update customer ok", "Please wait a minute");
+    USER_SERVICE.updateUser(userInfo.id, values)
+      .then((res) => {
+        CustomNotification("success", "Update user ok", "Please wait a minute");
         setTimeout(() => {
-          navigate("/");
+          navigate("/admin/user-management");
         }, 2500);
       })
       .catch((error) => {

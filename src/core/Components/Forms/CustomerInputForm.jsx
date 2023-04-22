@@ -3,12 +3,12 @@ import TextArea from "antd/es/input/TextArea";
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import Label from "../../Components/Forms/Label/Label";
-import Notification from "../Notification/CustomNotification";
 import { nanoid } from "@reduxjs/toolkit";
-import CUSTOMER_SERVICE_FIREBASE from "../../services/customerServ.firebase";
-import USER_SERVICE_FIREBASE from "../../services/userServ.firebase";
 import { sendMailWithTasks } from "../Email/sendMail";
 import { getMobileOS } from "../../utils/utils";
+import CUSTOMER_SERVICE from "../../services/customer.service";
+import CustomNotification from "../Notification/CustomNotification";
+import USER_SERVICE from "../../services/user.service";
 
 const { Option } = Select;
 
@@ -22,23 +22,10 @@ const CustomerInputForm = ({
   const [customerList, setCustomerList] = useState([]);
   const buttonRef = useRef(null);
   useEffect(() => {
-    let returnedData = [];
-    CUSTOMER_SERVICE_FIREBASE.getCustomerList()
-      .then((snapshot) => {
-        if (snapshot.exists()) {
-          snapshot.forEach((item) => {
-            returnedData = [
-              ...returnedData,
-              {
-                key: item.key,
-                ...item.val(),
-                id: item.key,
-              },
-            ];
-          });
-          console.log("returneddata");
-          console.log(returnedData);
-          setCustomerList(returnedData);
+    CUSTOMER_SERVICE.getAllCustomers()
+      .then((data) => {
+        if (data.length) {
+          setCustomerList(data);
         }
       })
       .catch((error) => {
@@ -69,7 +56,7 @@ const CustomerInputForm = ({
       userInfo.tasks = [...userInfo.tasks, taskData];
       let { id, ...userData } = userInfo;
       buttonRef.current.disabled = true;
-      USER_SERVICE_FIREBASE.updateUser(id, { ...userData })
+      USER_SERVICE.updateUser(id, userData)
         .then(() => {
           let templateParams = {
             order: taskData.order,
@@ -90,6 +77,17 @@ const CustomerInputForm = ({
             to_email: "kuum94@gmail.com",
           };
 
+          if (getMobileOS() === "Android") {
+            // update button_html for with ios app deep link here
+            templateParams.button_html = `
+              <a
+                href="http://www.appgas.com"
+                style="background-color:blue!important; color: white; padding: 7px 15px; font-size: 17px!important; border: none!important;outline: none!important;font-weight: bold;"
+              >
+                Open my app
+              </a>
+              `;
+          }
           // if (getMobileOS() === "iOS") {
           //   // update button_html for with ios app deep link here
           //   templateParams.button_html = `
@@ -106,7 +104,7 @@ const CustomerInputForm = ({
         })
         .then((res) => {
           if (res.status === 200) {
-            Notification(
+            CustomNotification(
               "success",
               "Assign task for user ok",
               "Please wait a minute"
@@ -116,7 +114,7 @@ const CustomerInputForm = ({
               navigate("/admin/user/task-management");
             }, 1000);
           } else {
-            Notification(
+            CustomNotification(
               "error",
               "Something went wrong !!",
               "Please check your email again!!"
@@ -128,7 +126,7 @@ const CustomerInputForm = ({
           console.log(error);
         });
     } else {
-      Notification("error", "Customer phone number does not exist", "");
+      CustomNotification("error", "Customer phone number does not exist", "");
     }
   };
   const handleFinishFailed = (errorInfo) => {

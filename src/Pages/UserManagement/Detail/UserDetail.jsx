@@ -7,16 +7,17 @@ import SectionWrapper from "../../../core/Components/SectionWrapper/SectionWrapp
 
 import Header from "../../../core/Components/Header/Header";
 import avatar from "../../../core/assets/images/avatar.svg";
-import USER_SERVICE_FIREBASE from "../../../core/services/userServ.firebase";
+import USER_SERVICE from "../../../core/services/user.service";
 
 const UserDetail = () => {
   const { id } = useParams();
   let [userInfo, setUserInfo] = useState({});
+
   useEffect(() => {
-    USER_SERVICE_FIREBASE.getSingleUserInfo(id)
-      .then((snapshot) => {
-        if (snapshot.exists()) {
-          setUserInfo(snapshot.val());
+    USER_SERVICE.getUserById(id)
+      .then((data) => {
+        if (Object.keys(data).length) {
+          setUserInfo(data);
         }
       })
       .catch((error) => {
