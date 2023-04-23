@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import Label from "../../Components/Forms/Label/Label";
 import { nanoid } from "@reduxjs/toolkit";
 import { sendMailWithTasks } from "../Email/sendMail";
-import { getMobileOS } from "../../utils/utils";
+import { getMobileOS, mapStringSplice } from "../../utils/utils";
 import CUSTOMER_SERVICE from "../../services/customer.service";
 import CustomNotification from "../Notification/CustomNotification";
 import USER_SERVICE from "../../services/user.service";
@@ -47,7 +47,7 @@ const CustomerInputForm = ({
         fullname: customerList[customerIdx].fullname,
         email: customerList[customerIdx].email,
         sdt: customerList[customerIdx].sdt,
-        map: customerList[customerIdx].map,
+        map: mapStringSplice(customerList[customerIdx].map),
         address: customerList[customerIdx].address,
         order: values.order.trim() || "",
         note: values.note || "",

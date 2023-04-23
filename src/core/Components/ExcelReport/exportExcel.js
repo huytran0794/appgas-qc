@@ -16,6 +16,6 @@ export const exportToExcel = (fileName, dataToExport) => {
   const wb = XLSX.utils.book_new();
   const ws = XLSX.utils.json_to_sheet(dataToExport);
   XLSX.utils.book_append_sheet(wb, ws, "Customers");
-  return XLSX.writeFileXLSX(wb, `${fileName}.xlsx`);
-  // return XLSX.write(wb, { type: "file", bookType: "xlsx" });
+  // return XLSX.writeFileXLSX(wb, `${fileName}.xlsx`);
+  return XLSX.write(wb, { type: "binary", bookType: "xlsx" });
 };

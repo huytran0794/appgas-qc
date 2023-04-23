@@ -14,9 +14,8 @@ import CustomNotification from "../../core/Components/Notification/CustomNotific
 
 import CUSTOMER_SERVICE from "../../core/services/customer.service";
 import { LoadingOutlined } from "@ant-design/icons";
-import { Spin } from "antd";
-import FILE_SERVICE from "../../core/services/file.service";
-import { utils as XLSX, read } from "xlsx";
+import { convertBinaryData } from "../../core/utils/utils";
+import FileSaver from "file-saver";
 const antIcon = (
   <LoadingOutlined
     style={{
@@ -65,17 +64,12 @@ const CustomerListPage = () => {
       let reportName = `${fileName}_${currentDate}`;
       let timeOutId = setTimeout(() => {
         let tempFile = exportToExcel(reportName, customerList);
-        console.log("tempFile");
-        console.log(tempFile);
-        // FILE_SERVICE.send(tempFile)
-        //   .then((data) => {
-        //     console.log("file data");
-        //     console.log(data);
-        //   })
-        //   .catch((error) => {
-        //     console.log("error");
-        //     console.log(error);
-        //   });
+        let blobFile = new Blob([convertBinaryData(tempFile)], {
+          type: "application/octet-stream",
+        });
+
+        console.log(blobFile);
+        FileSaver.saveAs(blobFile, `${reportName}.xlsx`);
         setLoading(false);
       }, 2500);
       return () => {

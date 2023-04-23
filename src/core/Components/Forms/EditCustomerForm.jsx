@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import Label from "../../Components/Forms/Label/Label";
 import CustomNotification from "../Notification/CustomNotification";
 import CUSTOMER_SERVICE from "../../services/customer.service";
+import { mapStringSplice } from "../../utils/utils";
 
 const EditCustomerForm = ({
   layout = "vertical",
@@ -15,6 +16,7 @@ const EditCustomerForm = ({
   const [form] = Form.useForm();
   const initialValues = { ...customerInfo };
   const handleFinish = (values) => {
+    values.map = mapStringSplice(values.map);
     CUSTOMER_SERVICE.updateCustomer(customerInfo.id, values)
       .then((res) => {
         CustomNotification(
