@@ -15,7 +15,8 @@ import CustomNotification from "../../core/Components/Notification/CustomNotific
 import CUSTOMER_SERVICE from "../../core/services/customer.service";
 import { LoadingOutlined } from "@ant-design/icons";
 import { Spin } from "antd";
-
+import FILE_SERVICE from "../../core/services/file.service";
+import { utils as XLSX, read } from "xlsx";
 const antIcon = (
   <LoadingOutlined
     style={{
@@ -42,13 +43,45 @@ const CustomerListPage = () => {
   }, []);
 
   useEffect(() => {
-    const fileName = "report";
-    const currentDate = new Date().getTime();
-    const timeId = setTimeout(() => {
-      setLoading(false);
-      exportToExcel(`${fileName}_${currentDate}`, customerList);
-    }, 5000);
-    return () => clearTimeout(timeId);
+    if (loading) {
+      // const fileName = "report";
+      // const currentDate = new Date().getTime();
+      // let report_name = `${fileName}_${currentDate}`;
+      // let blob = exportToExcel(customerList);
+      // let formdata = new FormData();
+      // formdata.append("file", blob, `${report_name}.xlsx`);
+      // FILE_SERVICE.send(formdata)
+      //   .then((data) => {
+      //     console.log("file data");
+      //     console.log(data);
+      //   })
+      //   .catch((error) => {
+      //     console.log("error");
+      //     console.log(error);
+      //   });
+      // setLoading(false);
+      const fileName = "report";
+      const currentDate = new Date().getTime();
+      let reportName = `${fileName}_${currentDate}`;
+      let timeOutId = setTimeout(() => {
+        let tempFile = exportToExcel(reportName, customerList);
+        console.log("tempFile");
+        console.log(tempFile);
+        // FILE_SERVICE.send(tempFile)
+        //   .then((data) => {
+        //     console.log("file data");
+        //     console.log(data);
+        //   })
+        //   .catch((error) => {
+        //     console.log("error");
+        //     console.log(error);
+        //   });
+        setLoading(false);
+      }, 2500);
+      return () => {
+        clearTimeout(timeOutId);
+      };
+    }
   }, [loading]);
 
   let handleSearchInput = (searchTxt) => {
@@ -57,8 +90,7 @@ const CustomerListPage = () => {
 
   let handleExportFile = (customerList) => {
     setLoading(true);
-    // let excelFile = exportToExcel(`${fileName}_${currentDate}`, customerList);
-
+    // let excelFile = exportToExcel(, customerList);
     // const fileRef = ref(storage, `files/${fileName}_${currentDate}.xlsx`);
     // uploadBytes(fileRef, fileBlobData)
     //   .then(() => {
