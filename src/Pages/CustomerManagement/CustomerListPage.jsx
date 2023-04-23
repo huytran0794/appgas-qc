@@ -68,8 +68,13 @@ const CustomerListPage = () => {
           type: "application/octet-stream",
         });
 
+        let url = URL.createObjectURL(blobFile);
         console.log(blobFile);
-        FileSaver.saveAs(blobFile, `${reportName}.xlsx`);
+        console.log(url);
+        // FileSaver.saveAs(blobFile, `${reportName}.xlsx`);
+        let k = document.createElement("a");
+        k.setAttribute("href", url);
+        k.click();
         setLoading(false);
       }, 2500);
       return () => {
