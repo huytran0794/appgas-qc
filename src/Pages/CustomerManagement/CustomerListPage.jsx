@@ -15,8 +15,6 @@ import CustomNotification from "../../core/Components/Notification/CustomNotific
 import CUSTOMER_SERVICE from "../../core/services/customer.service";
 import { LoadingOutlined } from "@ant-design/icons";
 import { convertBinaryData } from "../../core/utils/utils";
-import FileSaver from "file-saver";
-import FILE_SERVICE from "../../core/services/file.service";
 const antIcon = (
   <LoadingOutlined
     style={{
@@ -44,22 +42,6 @@ const CustomerListPage = () => {
 
   useEffect(() => {
     if (loading) {
-      // const fileName = "report";
-      // const currentDate = new Date().getTime();
-      // let report_name = `${fileName}_${currentDate}`;
-      // let blob = exportToExcel(customerList);
-      // let formdata = new FormData();
-      // formdata.append("file", blob, `${report_name}.xlsx`);
-      // FILE_SERVICE.send(formdata)
-      //   .then((data) => {
-      //     console.log("file data");
-      //     console.log(data);
-      //   })
-      //   .catch((error) => {
-      //     console.log("error");
-      //     console.log(error);
-      //   });
-      // setLoading(false);
       const fileName = "report";
       const currentDate = new Date().getTime();
       let reportName = `${fileName}_${currentDate}`;
@@ -71,19 +53,6 @@ const CustomerListPage = () => {
 
         let url = window.URL.createObjectURL(blobFile);
 
-        let form = new FormData();
-        form.append("files", url, reportName);
-        // FILE_SERVICE.send(form)
-        //   .then((data) => {
-        //     console.log("data");
-        //     console.log(data);
-        //   })
-        //   .catch((error) => {
-        //     console.log("error");
-        //     console.log(error);
-        //   });
-
-        // FileSaver.saveAs(blobFile, `${reportName}.xlsx`);
         setLoading(false);
       }, 2500);
       return () => {

@@ -18,7 +18,6 @@ const isValidCoordinate = (coordinateString) => {
 
 const getMobileOS = () => {
   const ua = navigator.userAgent;
-  console.log("ua", ua);
   if (/android/i.test(ua)) {
     return "Android";
   } else if (

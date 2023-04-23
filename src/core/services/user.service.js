@@ -1,11 +1,8 @@
-import {
-  AXIOS_INSTANCE_GENERATOR,
-  AXIOS_ADMIN_INSTANCE_GENERATOR,
-} from "./configURL";
+import { AXIOS_INSTANCE_GENERATOR } from "./configURL";
 
 const USER_SERVICE = {
   getAllAdmins: async () => {
-    let { data } = await AXIOS_ADMIN_INSTANCE_GENERATOR().get(`admin`);
+    let { data } = await AXIOS_INSTANCE_GENERATOR().get(`admin`);
     return data;
   },
   getAllUsers: async () => {
@@ -13,7 +10,7 @@ const USER_SERVICE = {
     return data;
   },
   getAllMasters: async () => {
-    let { data } = await AXIOS_ADMIN_INSTANCE_GENERATOR().get(`master`);
+    let { data } = await AXIOS_INSTANCE_GENERATOR().get(`master`);
     return data;
   },
   getUserById: async (id) => {

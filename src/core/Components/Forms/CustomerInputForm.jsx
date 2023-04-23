@@ -67,38 +67,15 @@ const CustomerInputForm = ({
               Địa chỉ: ${taskData.address},
               Google map: ${taskData.map},
             `,
-            button_html: `<a
-              href="https://appgas-qc.vercel.app/"
-                style="background-color:blue!important; color: white; padding: 7px 15px; font-size: 17px!important; border: none!important;outline: none!important;font-weight: bold;"
-              >
-                Open my app
-              </a>`,
+            // button_html: `<a
+            //   href="http://www.appgas.com"
+            //     style="background-color:blue!important; color: white; padding: 7px 15px; font-size: 17px!important; border: none!important;outline: none!important;font-weight: bold;"
+            //   >
+            //     Open my app
+            //   </a>`,
             // to_email: userInfo.email,
             to_email: "kuum94@gmail.com",
           };
-
-          if (getMobileOS() === "Android") {
-            // update button_html for with ios app deep link here
-            templateParams.button_html = `
-              <a
-                href="https://www.appgas-ios.com"
-                style="background-color:blue!important; color: white; padding: 7px 15px; font-size: 17px!important; border: none!important;outline: none!important;font-weight: bold;"
-              >
-                Open my app
-              </a>
-              `;
-          }
-          // if (getMobileOS() === "iOS") {
-          //   // update button_html for with ios app deep link here
-          //   templateParams.button_html = `
-          //     <a
-          //       href="#"
-          //       style="background-color:blue!important; color: white; padding: 7px 15px; font-size: 17px!important; border: none!important;outline: none!important;font-weight: bold;"
-          //     >
-          //       Open my app
-          //     </a>
-          //     `;
-          // }
 
           return sendMailWithTasks(templateParams);
         })
