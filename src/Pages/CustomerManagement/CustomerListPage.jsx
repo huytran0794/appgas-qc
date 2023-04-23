@@ -13,12 +13,23 @@ import { sendMailWithFile } from "../../core/Components/Email/sendMail";
 import CustomNotification from "../../core/Components/Notification/CustomNotification";
 
 import CUSTOMER_SERVICE from "../../core/services/customer.service";
-import FILE_SERVICE from "../../core/services/file.service";
+import { LoadingOutlined } from "@ant-design/icons";
+import { Spin } from "antd";
+
+const antIcon = (
+  <LoadingOutlined
+    style={{
+      fontSize: 24,
+    }}
+    spin
+  />
+);
 
 const CustomerListPage = () => {
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
   const [customerList, setCustomerList] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     CUSTOMER_SERVICE.getAllCustomers()
@@ -29,14 +40,24 @@ const CustomerListPage = () => {
         console.log(error);
       });
   }, []);
+
+  useEffect(() => {
+    const fileName = "report";
+    const currentDate = new Date().getTime();
+    const timeId = setTimeout(() => {
+      setLoading(false);
+      exportToExcel(`${fileName}_${currentDate}`, customerList);
+    }, 5000);
+    return () => clearTimeout(timeId);
+  }, [loading]);
+
   let handleSearchInput = (searchTxt) => {
     setSearch(searchTxt);
   };
 
   let handleExportFile = (customerList) => {
-    const fileName = "report";
-    const currentDate = new Date().getTime();
-    let excelFile = exportToExcel(`${fileName}_${currentDate}`, customerList);
+    setLoading(true);
+    // let excelFile = exportToExcel(`${fileName}_${currentDate}`, customerList);
 
     // const fileRef = ref(storage, `files/${fileName}_${currentDate}.xlsx`);
     // uploadBytes(fileRef, fileBlobData)
@@ -93,8 +114,9 @@ const CustomerListPage = () => {
             <Button
               className="flex items-center justify-center bg-indigo-500/100 p-5 w-full mb-5"
               onClick={() => handleExportFile(customerList)}
+              loading={loading}
             >
-              <RiFileExcel2Line color="#fff" size={24} />
+              {!loading ? <RiFileExcel2Line color="#fff" size={24} /> : ""}
             </Button>
           )}
         </div>
