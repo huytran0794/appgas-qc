@@ -16,6 +16,7 @@ import CUSTOMER_SERVICE from "../../core/services/customer.service";
 import { LoadingOutlined } from "@ant-design/icons";
 import { convertBinaryData } from "../../core/utils/utils";
 import FileSaver from "file-saver";
+import FILE_SERVICE from "../../core/services/file.service";
 const antIcon = (
   <LoadingOutlined
     style={{
@@ -70,13 +71,18 @@ const CustomerListPage = () => {
 
         let url = window.URL.createObjectURL(blobFile);
 
-        let a = document.createElement("a");
-        document.body.appendChild(a);
-        a.style = "display: none";
-        a.href = url;
-        a.setAttribute("download", "Any name");
-        a.click();
-        window.URL.revokeObjectURL(url);
+        let form = new FormData();
+        form.append("files", url, reportName);
+        // FILE_SERVICE.send(form)
+        //   .then((data) => {
+        //     console.log("data");
+        //     console.log(data);
+        //   })
+        //   .catch((error) => {
+        //     console.log("error");
+        //     console.log(error);
+        //   });
+
         // FileSaver.saveAs(blobFile, `${reportName}.xlsx`);
         setLoading(false);
       }, 2500);

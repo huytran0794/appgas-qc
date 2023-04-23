@@ -68,7 +68,7 @@ const CustomerInputForm = ({
               Google map: ${taskData.map},
             `,
             button_html: `<a
-                href="http://www.appgas.com"
+                href="#"
                 style="background-color:blue!important; color: white; padding: 7px 15px; font-size: 17px!important; border: none!important;outline: none!important;font-weight: bold;"
               >
                 Open my app
@@ -81,7 +81,7 @@ const CustomerInputForm = ({
             // update button_html for with ios app deep link here
             templateParams.button_html = `
               <a
-                href="http://www.appgas.com"
+                href="https://www.appgas-qc.vercel.app/"
                 style="background-color:blue!important; color: white; padding: 7px 15px; font-size: 17px!important; border: none!important;outline: none!important;font-weight: bold;"
               >
                 Open my app
