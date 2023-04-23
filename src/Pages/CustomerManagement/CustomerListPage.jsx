@@ -13,6 +13,7 @@ import { sendMailWithFile } from "../../core/Components/Email/sendMail";
 import CustomNotification from "../../core/Components/Notification/CustomNotification";
 
 import CUSTOMER_SERVICE from "../../core/services/customer.service";
+import FILE_SERVICE from "../../core/services/file.service";
 
 const CustomerListPage = () => {
   const [search, setSearch] = useState("");
@@ -33,12 +34,9 @@ const CustomerListPage = () => {
   };
 
   let handleExportFile = (customerList) => {
-    const fileName = "file_report";
+    const fileName = "report";
     const currentDate = new Date().getTime();
-    let fileBlobData = exportToExcel(
-      `${fileName}_${currentDate}`,
-      customerList
-    );
+    let excelFile = exportToExcel(`${fileName}_${currentDate}`, customerList);
 
     // const fileRef = ref(storage, `files/${fileName}_${currentDate}.xlsx`);
     // uploadBytes(fileRef, fileBlobData)
@@ -63,6 +61,15 @@ const CustomerListPage = () => {
     //   })
     //   .catch((error) => {
     //     CustomNotification("error", "Error", "Something went wrong");
+    //     console.log(error);
+    //   });
+    // FILE_SERVICE.send({ file: fileBlobData })
+    //   .then((data) => {
+    //     console.log("data");
+    //     console.log(data);
+    //   })
+    //   .catch((error) => {
+    //     console.log("error");
     //     console.log(error);
     //   });
   };
