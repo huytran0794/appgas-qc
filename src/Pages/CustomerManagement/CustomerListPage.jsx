@@ -136,6 +136,13 @@ const CustomerListPage = () => {
     return (
       <>
         <Header handleSearchInput={handleSearchInput} />
+        <Button
+          onClick={() => {
+            window.location.href = "https://react-firebase-blog-f768e.web.app/";
+          }}
+        >
+          Redirect to firebase
+        </Button>
         <SectionWrapper
           sectionClass={"customers"}
           title={renderTitle()}
